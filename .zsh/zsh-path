@@ -1,0 +1,3 @@
+path+=("~/.local/bin")
+path+=("/opt/lua-language-server/bin")
+export PATH

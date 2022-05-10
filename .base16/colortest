@@ -1,0 +1,8 @@
+#!/bin/bash
+clr="\003[0m"
+
+for i in {0..7}
+do
+  printf "\033[4%dm  " $i
+done
+printf "\n"

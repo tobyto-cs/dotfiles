@@ -1,0 +1,64 @@
+#!/bin/bash
+if [ $# -eq 0 ] 
+then
+  if [ -f $HOME/.base16/curtheme ]
+  then
+    seltheme=$(cat $HOME/.base16/curtheme)
+    if [ -z "$seltheme" ]
+    then
+      seltheme="woodland"
+    fi
+  else
+    # if theme was never set
+    seltheme="woodland"
+  fi
+else
+  seltheme=$1
+fi
+
+# Random theme (from my favorite dark themes)
+if [ $seltheme = "random" ]; then
+  themes=("danqing" "darcula" "framer" "gigavolt" "helios" "kimber" "materia" "nebula" "onedark" "pasque" "porple" "sandcastle" "snazzy" "summercamp" "twilight")
+  # 15 options
+  size=15
+  index=$(($RANDOM % $size))
+  echo "Random theme is: ${themes[$index]}"
+  seltheme=${themes[$index]}
+fi
+
+# Make sure im run inside correct dir
+cd $HOME/.base16
+pybase16 inject -s $seltheme -f $HOME/.i3/config -f $HOME/.config/kitty/kitty.conf -f $HOME/.Xresources -f $HOME/.zsh/zsh-colors -f $HOME/.themes/FlatColor/colors2 -f $HOME/.themes/FlatColor/colors3tmp \
+  -f $HOME/.zsh/zsh-theme -f $HOME/.config/nvim/lua/lualine-theme.lua -f $HOME/.config/nvim/colors/base16.vim
+
+# Update nvim color source file
+printf "if !exists('g:colors_name') || g:colors_name != 'base16-$seltheme'\n  colorscheme base16-$seltheme\nendif\n" > $HOME/.vimrc_background
+
+# Update zsh instances https://superuser.com/questions/852912/reload-all-running-zsh-instances
+# Using script found in $HOME/.zsh/zsh-theme
+killall -SIGUSR1 zsh
+# Update nvim instances
+killall -SIGUSR1 nvim
+# Update kitty instances
+i3-msg reload --quiet
+pgrep kitty | while read pid; do kill -SIGUSR1 $pid; done
+
+# Update gtk-3 apps
+color3=$HOME/.themes/FlatColor/colors3
+rm $color3
+touch $color3
+while IFS= read -r line; do
+  if [[ "$line" != \#* ]]; then
+    printf "$line\n" | tee -a $color3 > /dev/null
+  fi
+done < $HOME/.themes/FlatColor/colors3tmp
+xsettingsd &> /dev/null &
+sleep 0.1
+kill $!
+
+# Update i3 background using script
+source $HOME/.zsh/zsh-colors
+xsetroot -solid $base01
+
+# Set the curtheme file for refreshing
+echo $seltheme > $HOME/.base16/curtheme

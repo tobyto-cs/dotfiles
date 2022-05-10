@@ -1,0 +1,2 @@
+#!/bin/bash
+printf '\e]4;1;%s\a\e[0;41m  \e[m\n' "$1"
