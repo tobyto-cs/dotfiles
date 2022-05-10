@@ -73,22 +73,9 @@ xnoremap L g_
 xnoremap < <gv
 xnoremap > >gv
 
-" When completion menu is shown, use <cr> to select an item and do not add an
-" annoying newline. Otherwise, <enter> is what it is. For more info , see
-" https://superuser.com/a/941082/736190 and
-" https://unix.stackexchange.com/q/162528/221410
-" inoremap <expr> <cr> ((pumvisible())?("\<C-Y>"):("\<cr>"))
-" Use <esc> to close auto-completion menu
-" inoremap <expr> <esc> ((pumvisible())?("\<C-e>"):("\<esc>"))
-
 " Tab-complete, see https://vi.stackexchange.com/q/19675/15292.
 inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-
-" Edit and reload init.vim quickly
-nnoremap <silent> <leader>ev :<C-U>tabnew $MYVIMRC <bar> tcd %:h<cr>
-nnoremap <silent> <leader>sv :<C-U>silent update $MYVIMRC <bar> source $MYVIMRC <bar>
-      \ call v:lua.vim.notify("Nvim config successfully reloaded!", 'info', {'title': 'nvim-config'})<cr>
 
 " Reselect the text that has just been pasted, see also https://stackoverflow.com/a/4317090/6064933.
 nnoremap <expr> <leader>v printf('`[%s`]', getregtype()[0])
@@ -125,9 +112,6 @@ xnoremap c "_c
 " Remove trailing whitespace characters
 nnoremap <silent> <leader><Space> :<C-U>StripTrailingWhitespace<CR>
 
-" check the syntax group of current cursor position
-nnoremap <silent> <leader>st :<C-U>call utils#SynGroup()<CR>
-
 " Clear highlighting
 if maparg('<C-L>', 'n') ==# ''
   nnoremap <silent> <C-L> :<C-U>nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
@@ -135,9 +119,6 @@ endif
 
 " Copy entire buffer.
 nnoremap <silent> <leader>y :<C-U>%y<CR>
-
-" Toggle cursor column
-nnoremap <silent> <leader>cl :<C-U>call utils#ToggleCursorCol()<CR>
 
 " Replace visual selection with text in register, but not contaminate the
 " register, see also https://stackoverflow.com/q/10723700/6064933.
@@ -147,14 +128,6 @@ nnoremap <Left> <C-W>h
 nnoremap <Right> <C-W>l
 nnoremap <Up> <C-W>k
 nnoremap <Down> <C-W>j
-
-" Text objects for URL
-xnoremap <silent> iu :<C-U>call text_obj#URL()<CR>
-onoremap <silent> iu :<C-U>call text_obj#URL()<CR>
-
-" Text objects for entire buffer
-xnoremap <silent> iB :<C-U>call text_obj#Buffer()<CR>
-onoremap <silent> iB :<C-U>call text_obj#Buffer()<CR>
 
 " Do not move my cursor when joining lines.
 nnoremap J mzJ`z
@@ -168,15 +141,11 @@ endfor
 inoremap <A-;> <ESC>miA;<ESC>`ii
 
 " Keep cursor position after yanking
-nnoremap y myy
-xnoremap y myy
+" nnoremap y myy
+" xnoremap y myy
 
 augroup restore_after_yank
   autocmd!
   autocmd TextYankPost *  call s:restore_cursor()
 augroup END
 
-function! s:restore_cursor() abort
-  silent! normal `y
-  silent! delmarks y
-endfunction
