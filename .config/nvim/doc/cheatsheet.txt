@@ -1,0 +1,63 @@
+*cheatsheet.txt*    For Neovim version v0.8.0 Last change: 2022 May 14 
+
+Cheat sheet for Jeremy's Nvim instalation
+
+=========================================================================================
+CONTENTS                                                                     *cheatsheet*
+
+    1. Generic Keybinds................................................. |csgeneric|
+    2. Normal Mode...................................................... |csnormal|
+    3. Visual Mode...................................................... |csvisual|
+    4. Insert Mode...................................................... |csinsert|
+    5. Plugins.......................................................... |csplugins|
+      5.1. nvim-cmp................................................... |cscmp|
+      5.2. lspconfig.................................................. |cslsp|
+      5.3. LeaderF.................................................... |csleaderf|
+      5.4. tpope...................................................... |cstpope|
+      5.5. vim-sandwich............................................... |cssandwich|
+      5.6. hop.nvim................................................... |cshop|
+      5.7. nvim-tree.................................................. |cstree|
+      5.8. nvim-bqf................................................... |csbqf|
+      5.9. nvim-hlslens............................................... |cshlslens|
+      5.10. targets.vim............................................... |cstargets|
+      5.11. vim-matchup............................................... |csmatchup|
+      5.12. vim-gdb................................................... |csgdb|
+      5.13. tabline................................................... |cstabline|
+
+=========================================================================================
+1. Generic Keybinds                                                           *csgeneral*
+
+   <leader>     The leader key is set to ',' 
+
+
+
+=========================================================================================
+2. Normal Mode                                                                 *csnormal*
+
+    - 
+
+=========================================================================================
+3. Visual Mode                                                                 *csvisual*
+
+
+=========================================================================================
+4. Insert Mode                                                                 *csinsert*
+
+
+=========================================================================================
+5. Plugins                                                                    *csplugins*
+
+    |packer|              Plugin handler based around lua
+    lspkind             Icons for lsp autocompletion
+    |nvim-cmp|            lsp autocompletion, see |cscmp|
+    |lspconfig|           lsp server configurations, see |cslsp|
+    nvim-web-devicons   devicons for nvim
+    |lualine|             Statusline built in lua for nvim
+    |tabline|             Tabline compatable with lualine, see |cstabline|
+    |UltiSnips|           Snippits for nvim-cmp using |cmp-nvim-ultisnips|
+    |better-escape|       Better escaping from insert Mode
+    |LeaderF|             Fuzzy finder, see |csleaderf|
+    |vim-fugitive|        
+
+
+    
