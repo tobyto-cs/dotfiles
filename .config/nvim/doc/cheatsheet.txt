@@ -23,6 +23,7 @@ CONTENTS                                                                     *ch
       5.11. vim-matchup............................................... |csmatchup|
       5.12. vim-gdb................................................... |csgdb|
       5.13. tabline................................................... |cstabline|
+      5.14. vista.vim................................................. |csvista|
 
 =========================================================================================
 1. Generic Keybinds                                                           *csgeneral*
@@ -57,7 +58,30 @@ CONTENTS                                                                     *ch
     |UltiSnips|           Snippits for nvim-cmp using |cmp-nvim-ultisnips|
     |better-escape|       Better escaping from insert Mode
     |LeaderF|             Fuzzy finder, see |csleaderf|
-    |vim-fugitive|        
+    |vim-fugitive|        Git wrapper for nvim, see |cstpope| 
+    |vim-commentary|      Comment out objects, see |cstpope|
+    |delimitMate|         Completion of (), "", etc... 
+    |vim-sandwich|        Add, edit, delete surroundings of objs, see |cssandwich|
+    |hop|.nvim            Jump all around the document, see |cshop| 
+    nvim-tree           File browser, see |cstree|
+    |nvim-bqf.txt|        Better quick fix menu, see |csbqf|
+    |nvim-hlslens.txt|    Better search
+    |wilder|              Nvim command autocompletion
+    which-key           Popup suggestions for custom mappings
+    |nvim-treesitter|     Lsp based code highlighting
+    |asyncrun|            Async running of terminal commands
+    |vim-markdown|        Markdown editing for vim
+    vista.vim           View/search lsp symbols and tags, see |csvista|
+    |neoscroll.txt|       Smoother scrolling
+    telescope           Another fuzzy finder, slower but cool gui
+    vim-signify         Show git change signs in vim sign column
+
+
+
+
+
+
+    
 
 
     
