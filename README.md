@@ -3,6 +3,9 @@
 The base for the setup is manjaro-i3 minimal
 https://manjaro.org/downloads/community/i3/
 
+Download the Installer
+`wget https://raw.githubusercontent.com/tobyto-cs/dotfiles/main/dotfiles-install`
+
 Update pacman `sudo pacman -Syu`
 
 Install **YaY** https://github.com/Jguer/yay
