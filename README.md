@@ -4,7 +4,7 @@ The base for the setup is manjaro-i3 minimal
 https://manjaro.org/downloads/community/i3/
 
 Download the Installer
-`https://raw.githubusercontent.com/tobyto-cs/dotfiles/main/dotfiles-install`
+`wget https://raw.githubusercontent.com/tobyto-cs/dotfiles/main/dotfiles-install`
 
 Update pacman `sudo pacman -Syu`
 
