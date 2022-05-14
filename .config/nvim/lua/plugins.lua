@@ -102,7 +102,7 @@ require('packer').startup({
 
     use 'skywind3000/asyncrun.vim'
 
-    use 'preservim/vim-markdown'
+    -- use 'preservim/vim-markdown'
 
     use({"liuchengxu/vista.vim", cmd = "Vista"})
 
