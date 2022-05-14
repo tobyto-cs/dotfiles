@@ -1,18 +1,29 @@
 #!/bin/bash
 
-sudo pacman -Syu
-sudo pacman -S --needed git base-devel
-sudo chown $USER /opt
-cd /opt/
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si --needed --noconfirm
-yay --save --answerclean None --answerdiff None
+if ! pacman -Qi yay > /dev/null; then
+  sudo pacman -Syu
+  sudo pacman -S --needed git base-devel
+  sudo chown $USER /opt
+  cd /opt/
+  git clone https://aur.archlinux.org/yay.git
+  cd yay
+  makepkg -si --needed --noconfirm
+  yay --save --answerclean None --answerdiff None
+else
+  echo "YaY already installed, not reinstalling..."
+fi
 
 sudo usermod --shell /bin/zsh $USER
-yay -S -noconfirm --needed python-pip kitty mdcat nerd-fonts-fira-code nvim-packer-git lua-language-server-git
+yay -S --noconfirm python3 python-pip kitty mdcat neovim-nightly-bin nvim-packer-git lua-language-server-git
+yay -S --noconfirm nerd-fonts-fira-code
+
+pip install pybase16-builder
+pip install neovim
 
 # Config installation
-git clone --bare git@github.com:tobyto-cs/dotfiles.git $HOME/.cfg
+
+git clone --bare git@github.com:tobyto-cs/dotfiles.git $HOME/.dotfiles
 /usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME config --local status.showUntrackedFiles no
 /usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME checkout
+
+sudo ln $HOME/.base16/injtheme /usr/bin/injtheme
