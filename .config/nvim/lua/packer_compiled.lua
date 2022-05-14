@@ -145,10 +145,25 @@ _G.packer_plugins = {
     path = "/home/jeremy/.local/share/nvim/site/pack/packer/opt/cmp-path",
     url = "https://github.com/hrsh7th/cmp-path"
   },
+  cpsm = {
+    loaded = true,
+    path = "/home/jeremy/.local/share/nvim/site/pack/packer/start/cpsm",
+    url = "https://github.com/nixprime/cpsm"
+  },
   delimitMate = {
     loaded = true,
     path = "/home/jeremy/.local/share/nvim/site/pack/packer/start/delimitMate",
     url = "https://github.com/Raimondi/delimitMate"
+  },
+  fd = {
+    loaded = true,
+    path = "/home/jeremy/.local/share/nvim/site/pack/packer/start/fd",
+    url = "https://github.com/sharkdp/fd"
+  },
+  ["fzy-lua-native"] = {
+    loaded = true,
+    path = "/home/jeremy/.local/share/nvim/site/pack/packer/start/fzy-lua-native",
+    url = "https://github.com/romgrk/fzy-lua-native"
   },
   ["hop.nvim"] = {
     config = { "\27LJ\2\n/\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\20config.nvim-hop\frequire-\1\0\4\0\3\0\0066\0\0\0009\0\1\0003\2\2\0)\3Ð\aB\0\3\1K\0\1\0\0\rdefer_fn\bvim\0" },
@@ -179,12 +194,13 @@ _G.packer_plugins = {
     url = "https://github.com/karb94/neoscroll.nvim"
   },
   ["nvim-bqf"] = {
+    config = { "require('config.nvim-bqf')" },
     loaded = true,
     path = "/home/jeremy/.local/share/nvim/site/pack/packer/start/nvim-bqf",
     url = "https://github.com/kevinhwang91/nvim-bqf"
   },
   ["nvim-cmp"] = {
-    after = { "cmp-buffer", "cmp-nvim-ultisnips", "cmp-nvim-lsp", "cmp-omni", "cmp-path", "cmp-nvim-lua" },
+    after = { "cmp-buffer", "cmp-nvim-lua", "cmp-nvim-ultisnips", "cmp-omni", "cmp-path", "cmp-nvim-lsp" },
     config = { "require('config.nvim-cmp')" },
     load_after = {
       ["lspkind-nvim"] = true
@@ -338,14 +354,18 @@ time([[Defining packer_plugins]], false)
 time([[Setup for nvim-gdb]], true)
 vim.cmd('packadd nvim-gdb')
 time([[Setup for nvim-gdb]], false)
--- Config for: lualine.nvim
-time([[Config for lualine.nvim]], true)
-require('config.statusline')
-time([[Config for lualine.nvim]], false)
+-- Config for: wilder.nvim
+time([[Config for wilder.nvim]], true)
+require('config.wilder')
+time([[Config for wilder.nvim]], false)
 -- Config for: tabline.nvim
 time([[Config for tabline.nvim]], true)
 require('config.tabline')
 time([[Config for tabline.nvim]], false)
+-- Config for: neoscroll.nvim
+time([[Config for neoscroll.nvim]], true)
+require('config.neoscroll')
+time([[Config for neoscroll.nvim]], false)
 -- Config for: nvim-tree.lua
 time([[Config for nvim-tree.lua]], true)
 require('config.nvim-tree')
@@ -354,18 +374,18 @@ time([[Config for nvim-tree.lua]], false)
 time([[Config for which-key.nvim]], true)
 require('config.which-key')
 time([[Config for which-key.nvim]], false)
--- Config for: wilder.nvim
-time([[Config for wilder.nvim]], true)
-require('config.wilder')
-time([[Config for wilder.nvim]], false)
+-- Config for: nvim-bqf
+time([[Config for nvim-bqf]], true)
+require('config.nvim-bqf')
+time([[Config for nvim-bqf]], false)
 -- Config for: nvim-treesitter
 time([[Config for nvim-treesitter]], true)
 require('config.treesitter')
 time([[Config for nvim-treesitter]], false)
--- Config for: neoscroll.nvim
-time([[Config for neoscroll.nvim]], true)
-require('config.neoscroll')
-time([[Config for neoscroll.nvim]], false)
+-- Config for: lualine.nvim
+time([[Config for lualine.nvim]], true)
+require('config.statusline')
+time([[Config for lualine.nvim]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd ultisnips ]]
@@ -373,8 +393,8 @@ time([[Sequenced loading]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Vista lua require("packer.load")({'vista.vim'}, { cmd = "Vista", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Telescope lua require("packer.load")({'telescope.nvim'}, { cmd = "Telescope", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Vista lua require("packer.load")({'vista.vim'}, { cmd = "Vista", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Obsession lua require("packer.load")({'vim-obsession'}, { cmd = "Obsession", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 time([[Defining lazy-load commands]], false)
 
@@ -382,7 +402,7 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
-vim.cmd [[au VimEnter * ++once lua require("packer.load")({'lspkind-nvim', 'targets.vim', 'vim-matchup', 'hop.nvim'}, { event = "VimEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au VimEnter * ++once lua require("packer.load")({'vim-matchup', 'hop.nvim', 'lspkind-nvim', 'targets.vim'}, { event = "VimEnter *" }, _G.packer_plugins)]]
 vim.cmd [[au BufEnter * ++once lua require("packer.load")({'vim-signify'}, { event = "BufEnter *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")

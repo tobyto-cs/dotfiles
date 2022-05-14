@@ -1,4 +1,4 @@
-let mapleader = ','
+lua require('keymaps')
 
 " Save key strokes (now we do not need to press shift to enter command mode).
 " Vim-sneak has also mapped `;`, so using the below mapping will break the map
@@ -144,8 +144,18 @@ inoremap <A-;> <ESC>miA;<ESC>`ii
 " nnoremap y myy
 " xnoremap y myy
 
-augroup restore_after_yank
-  autocmd!
-  autocmd TextYankPost *  call s:restore_cursor()
-augroup END
+" augroup restore_after_yank
+"   autocmd!
+"   autocmd TextYankPost *  call s:restore_cursor()
+" augroup END
 
+" Tab keybinds, see tabline.lua config for extras
+nnoremap <leader>tn <Cmd>:tabnext<Cr>
+nnoremap <leader>tp <Cmd>:tabprevious<Cr>
+nnoremap <leader>tt <Cmd>:tabnew<Cr>
+nnoremap <space><up> <Cmd>:tabnext<Cr>
+nnoremap <space><down> <Cmd>:tabnext<Cr>
+
+" Buffer / Window mappings
+nnoremap <space>w <C-w>
+nnoremap <leader>bd <Cmd>:bdelete<Cr>  

@@ -1,4 +1,4 @@
-" %%base16_template: vim##default %%
+" %%base16_template: nvim##default %%
 " vi:syntax=vim
 
 " base16-vim (https://github.com/chriskempson/base16-vim)
@@ -405,6 +405,9 @@ call <sid>hi("StartifySpecial",  s:gui03, "", s:cterm03, "", "", "")
 
 " Java highlighting
 call <sid>hi("javaOperator",     s:gui0D, "", s:cterm0D, "", "", "")
+
+" Floating Window highlighting
+call <sid>hi("FloatBorder", s:gui05, s:gui01, "", "", "", "")
 
 " Remove functions
 delf <sid>hi

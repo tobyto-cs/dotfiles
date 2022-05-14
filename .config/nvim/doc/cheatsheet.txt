@@ -10,39 +10,260 @@ CONTENTS                                                                     *ch
     3. Visual Mode...................................................... |csvisual|
     4. Insert Mode...................................................... |csinsert|
     5. Plugins.......................................................... |csplugins|
-      5.1. nvim-cmp................................................... |cscmp|
-      5.2. lspconfig.................................................. |cslsp|
-      5.3. LeaderF.................................................... |csleaderf|
-      5.4. tpope...................................................... |cstpope|
-      5.5. vim-sandwich............................................... |cssandwich|
-      5.6. hop.nvim................................................... |cshop|
-      5.7. nvim-tree.................................................. |cstree|
-      5.8. nvim-bqf................................................... |csbqf|
-      5.9. nvim-hlslens............................................... |cshlslens|
-      5.10. targets.vim............................................... |cstargets|
-      5.11. vim-matchup............................................... |csmatchup|
-      5.12. vim-gdb................................................... |csgdb|
-      5.13. tabline................................................... |cstabline|
-      5.14. vista.vim................................................. |csvista|
+      5.1. lspconfig.................................................. |cslsp|
+      5.2. LeaderF.................................................... |csleaderf|
+      5.3. tpope...................................................... |cstpope|
+      5.4. hop.nvim................................................... |cshop|
+      5.5. nvim-tree.................................................. |cstree|
+      5.6. nvim-bqf................................................... |csbqf|
+      5.7. nvim-hlslens............................................... |cshlslens|
+      5.8. targets.vim................................................ |cstargets|
+      5.9. vim-matchup................................................ |csmatchup|
+      5.10. vim-gdb................................................... |csgdb|
+      5.11. tabline................................................... |cstabline|
+      5.12. vista.vim................................................. |csvista|
 
 =========================================================================================
 1. Generic Keybinds                                                           *csgeneral*
 
-   <leader>     The leader key is set to ',' 
-
+    '<leader>'        The leader key is set to ',' 
+    ':ter[minal]'     Open terminal window
+    ':reg[isters]'    Show registers content
+    ':marks'          List of marks
+    ':ju[mps]'        List of jumps
+    ':changes'
+    'K'               Open man page for word under cursor
 
 
 =========================================================================================
 2. Normal Mode                                                                 *csnormal*
+  
+    These commands can be prefixed with a 'num' to repeat that many times
 
-    - 
+*csn-cursor*
+    'h' 'j' 'k' 'l'         Move cursor, left, down, up, right
+    'H'               Move to top of screen
+    'M'               Move to middle of screen
+    'L'               Move to bottom of screen
+    'w' 'W'             Jump to start of word, 'W' includes punctuation
+    'e' 'E'             Jump to end of word, 'E' includes punctuation
+    'b' 'B'             Jump backwards to start of word
+    '%'               Move to matching character, see |csmatchup|
+    '0' '^'             Jump to start of line, '^' jmp to non-blank chars
+    '$' 'g_'            Jump to end of line, 'g_' jmp to non-blank chars
+    'gg' 'G'            goto first or last line of document
+    '{num}gg'         goto {num} line 
+    'fx' 'Fx'           goto next/prev occurance of character 'x'
+    'zz'              center cursor on screen
+    '<C-y>' '<C-e>'     Move screen up/down one line (w/o move cursor)
+    '<C-f>' '<C-b>'     Move foward/back one full screen
+    '<C-d>' '<C-u>'     Move foward/back a half screen
+
+    'r'               Replace a single character
+    'J'               Join line below to current w/ space between
+    'gJ'              Join line below to current w/o space between
+    'cc'              Change  entire line
+    'c$' 'C'            Change to the end of the line
+    'c{obj}'          Change (replace) a text object  
+    'u'               Undo
+    'U'               Undo last changed line
+    '<C-r>'           Redo
+    '.'               Repeat last command
+
+*csn-macro*
+    'qa'              Record macro 'a'
+    'q'               Stop recording macro
+    '@a'              Run macro 'a'
+    '@@'              Rerun last macro
+
+*csn-cutpaste*
+    'yy'              Yank a line
+    'y{obj}'          Yank a text object
+    'yi{obj}'         Yank text object under cursor      
+    'ya{obj}'         Yank text object and surrounding space
+    'y$' 'Y'            Yank to end of line
+    'p' 'P'             Put the clipboard after/before cursor
+    'gp' 'gP'           Put the clipboard after/before cursor and leave cursor inplace
+    'dd'              Delete a line
+    'd{obj}'          Yank a text object
+    'di{obj}'         Yank text object under cursor
+    'da{obj}'         Yank text object and surrounding space
+    'd$' 'D'            Delete to end of line
+    'x'               Delete single character
+
+*csn-search*
+    '/{pattern}'      Search for pattern, 'overwritten
+    '?{pattern}'      Search backward for pattern
+    '\v{pattern}'     Very magic pattern, 'overwritten
+    'n' 'N'             Repeat search in same/opposite direction
+    ':%s/{old}''/{new}' Replace all {old} with {new} throughout file
+    ':noh[lsearch]'   Remove highlighting of search matches
+
+*csn-insert*
+    'i'               Insert before the cursor
+    'I'               Insert at begining of line
+    'a'               Insert after the cursor
+    'A'               Insert at the end of the line
+    'o' 'O'             Insert new line below/above current line
+    'ea'              Insert at end of word
+    
+*csn-indent*
+    '>>'              Indent line one shiftwidth
+    '<<'              De-indent line one shiftwidth
+    '>%'              Indent a block (matching characters)
+    '>ib'             Indent inner block
+    '=='              Re-indent whole line
+    '=%'              Re-indent block
+    'gg=G'            Re-indent entire buffer
+
+*csn-register*
+    ']p'              Put and adjust indent
+    '"xy'             Yank into register 'x'
+    '"xp'             Put contents of register 'x'
+    '"+y'             Yank into system clipboard register
+    '"+p'             Put from system clipboard register
+
+*csn-mark*
+    'ma'              Set current position for mark 'a'
+    '\`a'             Jump to position of mark 'a'
+    'y`a'             Yank text to position of mark 'a'
+    '\`0'             Goto position where vim was previously exited
+    '\`"'             Goto position when last editing this file
+    '\`.'             Goto position of last change in this file
+    '\``'             Goto position before last jump
+    '<C-i>' '<C-o>'     Goto newer/older position in jump list
+    'g,' 'g;'           Goto newer/older position in change list
+
+*csn-diff*
+    To operate on all levels, capitalize second char 
+
+    'zf'              Manually define fold up to motion
+    'zd'              Delete fold under cursor
+    'za'              Toggle fold under cursor
+    'zo'              Open fold under cursor
+    'zc'              Close fold under cursor
+    'zr'              Open (reduce) all folds by one level
+    'zm'              Close (fold more) all folds by one level
+    'zi'              Toggle folding functionality
+    ']c' '[c'           Jump to start of next/previous change
+    'do'              Obtain difference from other buffer
+    'dp'              Put difference to other buffer
+    ':diffthis'       Make current window part of diff
+    ':dif[fupdate]'   Update differences
+    ':diffo[ff]'      Switch off diff mode for current window 
+
+*csn-files*
+    ':e[dit]'         Edit file in new buffer
+    ':bn[ext]'        Goto next buffer
+    ':bp[revious]'    Goto previous buffer
+    ':bd[elete]'      Delete (close) a buffer (file)
+    ':b#'             Goto buffer by index #
+    ':b {file}'       Goto buffer by file
+    ':ls' ':buffers'    List all opened buffers
+    ':sp {file}'      Open a file in new buffer and split window (horizontally)
+    ':vs {file}'      Open a file in new buffer and split window vertically
+      
+      Note: '<Space>w' can be used instead of '<C-w>', see |csnum#tabline.nvim|
+    '<C-ws>' '<C-wv>'   Split window horizontall/vertically
+    '<C-ww>'          Switch windows
+    '<C-wq>'          Quit a window
+    '<C-wx>'          Exchange current window with next one
+    '<C-w=>'          Make all windows equal height and width
+    
+
+-----------------------------------------------------------------------------------------
+  User Mappings                                                                   *csnum*
+
+    ';'               Shortcut for ':' aka easier commands 
+    '<leader>w'       Faster save, '<C-U>update<CR>'
+    '<leader>q'       Faster save and quit, '<C-U>x<CR>'
+    '<leader>Q'       Quit all opened buffers, '<C-U>qa!<CR>'
+    '<Space>o'        Insert blank line below
+    '<Space>O'        Insert blank line above 
+    '<Space><Space>'  Insert Space after current character, 'a<Space><ESC>h'
+    '<Tab>'           Jump to matching pairs easily, '%'
+    'H'               Jump to start of line, '^'
+    'L'               Jump to end of line, 'g_'
+    '<leader>v'       Reselect text that has just been pasted
+    '<F11>'           Toggle spellcheck
+    '<C-L>'           Clear highlighting
+    '<leader>y'       Copy entire buffer, '<C-U>%y<CR>'
+    '<Left>'          Goto left buffer, '<C-W>h'
+    '<Right>'         Goto right buffer, '<C-W>l'
+    '<Up>'            Goto upper buffer, '<C-W>k'
+    '<Down>'          Goto lower buffer, '<C-W>j'
+
+*csnum#lsp*
+    'gd'              Goto definition of variable/function
+    'K'               Open lsp hover menu
+    '<C-k>'           Show lsp signature help
+    '<space>rn'       Rename variable/function
+    'gr'              References to variable/function in quickfix menu
+    '[d' ']d'           Goto previous/next diagnostic
+    '<Space>ca'       Open code action menu
+
+*csnum#nvim-tree*
+    '<Space>s'        Toggle nvim-tree itself      
+
+*csnum#tabline.nvim*
+    '<space><right>'  Next buffer in tabline
+    '<space><left>'   Prev buffer in tabline
+    '<space><up>'     Next tab
+    '<space><down>'   Prev tab
+    '<leader>tr'      Rename tab 
+    '<leader>tb'      Bind buffer to current tab by name
+    '<leader>tt'      New tab
+    '<space>w'        '<C-w>'
+    
+*csnum#vim-sandwich*
+    'sa[obj][surr]'   Surrounds text 'obj' with 'surr'  
+    'sdb' 'sd[surr]'    Deletes surrounding automatically or specific 'surr'
+    'srb[surr]'       Replaces surrounding automatically with 'surr'
+    'srv[del][rep]'     Replaces 'del' surroundings with 'rep'
+
 
 =========================================================================================
 3. Visual Mode                                                                 *csvisual*
 
+    'o'               Move to other end of marked area
+    'O'               Move to other corner of block
+    'aw'              Mark a words
+    'ab'              Mark a block ()
+    'aB'              Mark a block {}
+    'at'              Mark a block <>
+    'a{obj}'          Mark a text obj
+    'i{obj}'          Mark inner text obj
+
+    '>' '<'             Shift text right/left
+    'y'               Yank marked text
+    '~'               Switch case of marked text
+    'u' 'U'             Change marked text to lower/uppercase
+
+
+-----------------------------------------------------------------------------------------
+  User Mappings                                                                   *csvum*
+
+    ';'               Shortcut for ':' aka easier commands 
+    'H'               Jump to start of line, '^'
+    'L'               Jump to end of line, 'g_'
+    '<', '>'            Continuous visual shifting, '<gv', '>gv'
+
 
 =========================================================================================
 4. Insert Mode                                                                 *csinsert*
+   
+
+    '<C-h>'           Delete character before cursor
+    '<C-w>'           Delete word before cursor
+    '<C-j>'           Begin new line
+    '<C-t>' '<C-d>'     Indent/De-indent line one shiftwidth   
+
+-----------------------------------------------------------------------------------------
+  User Mappings                                                                   *csium*
+
+    '<c-u>'           Turn word under cursor to upper case
+    '<c-t>'           Turn word under cursor to title case
+    '<F11>'           Toggle spellcheck
 
 
 =========================================================================================
@@ -75,6 +296,46 @@ CONTENTS                                                                     *ch
     |neoscroll.txt|       Smoother scrolling
     telescope           Another fuzzy finder, slower but cool gui
     vim-signify         Show git change signs in vim sign column
+    |targets|             Adds more text objects, see |cstargets|
+    vim-matchup         Extension of '%' to lang-specific words, see |csmatchup|
+    nvim-gdb            Nvim gdb plugin, see |gdb|, |csgdb|  
+    |vim-obsession|       Session management plugin, see |csobsession|
+
+
+-----------------------------------------------------------------------------------------
+nvim-tree                                                                        *cstree*
+
+    https://github.com/kyazdani42/nvim-tree.lua
+    A File Explorer For Neovim Written in Lua
+
+    In Editor Keybinds
+    'a'                   Add a file, leave a / at end for a directory
+    'r'                   Rename a File
+    'x'                   Add/remove file/directory to cut clipboard
+    'c'                   Add/remove file/directory to copy clipboard
+    'y'                   Copy name to system clipboard
+    'Y'                   Copy relative path to system clipboard
+    'gy'                  Copy absolute path to system clipboard
+    'p'                   Paste from clipboard
+    'd'                   Delete a File
+    ']c' '[c'               Goto next/prev git item
+    '-'                   Navigate up to the parent directory or current file/dir
+    's'                   Open file with default system application
+
+    '<C-v>' '<C-x>'         Open file in vertical/horizontal split
+    '<C-t>'               Open file in new tab
+    'I'                   Toggle visibility of hidden files/folders
+    'H'                   Toggle visibility of dotfiles
+    'R'                   Refresh the tree
+    'W'                   Collapse entire tree 
+    'S'                   Prompt enter path, expands tree to match path
+
+-----------------------------------------------------------------------------------------
+vim-sandwich                                                                 *cssandwich*
+
+    Adds extra textobj vim-sandwich
+    'ib' 'is'               Search and select surrounded text
+    'ab' 'as'               Search and select surrounded text and surroundings
 
 
 

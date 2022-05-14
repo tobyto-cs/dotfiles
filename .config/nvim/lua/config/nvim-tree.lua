@@ -114,6 +114,6 @@ nvim_tree.setup({
 })
 
 vim.keymap.set('n', '<space>s', function()
-  return require('nvim-tree').toggle(false, true)
+  return require('nvim-tree').toggle(false, false)
 end,
 { noremap = true, silent = true, desc = "toggle nvim-tree"})

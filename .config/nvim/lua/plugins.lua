@@ -69,12 +69,23 @@ require('packer').startup({
     }
 
     -- TODO: gotta learn these
-    use 'kevinhwang91/nvim-bqf'
-    use 'kevinhwang91/nvim-hlslens'
+    use {
+      'kevinhwang91/nvim-bqf',
+      config = [[require('config.nvim-bqf')]]
+    }
+    use {
+      'kevinhwang91/nvim-hlslens',
+      config = [[require('config.nvim-hlslens')]]
+    }
 
     use {
       'gelguy/wilder.nvim',
-      config = [[require('config.wilder')]]
+      config = [[require('config.wilder')]],
+      requires = {
+        {'sharkdp/fd'},
+        {'nixprime/cpsm'},
+        {'romgrk/fzy-lua-native'}
+      }
     }
 
     -- TODO: suuuuper useful self documentation on keybinds

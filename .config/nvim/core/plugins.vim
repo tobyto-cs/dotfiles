@@ -1,6 +1,5 @@
 lua require('plugins')
 
-
 "" UltiSnips config
 " Trigger configuration. Do not use <tab> if you use YouCompleteMe
 let g:UltiSnipsExpandTrigger='<c-j>'
