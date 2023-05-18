@@ -1,0 +1,60 @@
+# Global properties
+#
+# The top properties below are applied to every block, but can be overridden.
+# Each block command defaults to the script name to avoid boilerplate.
+# Change $SCRIPT_DIR to the location of your scripts!
+SCRIPT_DIR=/home/jeremy/.config/i3blocks/scripts
+command=$SCRIPT_DIR/$BLOCK_NAME
+separator_block_width=15
+markup=pango
+
+[cpuinfo]
+interval=persist
+output={cpu_format}  {temp_format}
+cpu_format={icon} {usage: >4.1f}%
+temp_format={icon} {temp: >2.0f}°C
+cpu_icon=
+cpu_icon_high=
+temp_icon=
+temp_icon_med=
+temp_icon_high=
+
+[gpuinfo]
+interval=persist
+output={gpu_format}  {temp_format}
+gpu_format={icon} {usage: >2}%
+temp_format={icon} {temp:}°C
+gpu_icon=
+temp_icon=
+temp_icon_med=
+temp_icon_high=
+
+[meminfo]
+interval=persist
+output={mem_format}
+mem_format={icon} {usage: >2.0f}% {used: >4.2f}/{total: >4.2f}GB
+mem_icon=󰍛
+
+[rofi-wttr]
+BAR_POSITION=bottom
+interval=300
+
+[time]
+command=date +'%A, %b %e, %l:%M%P'
+interval=5
+
+[battery2]
+markup=pango
+interval=20
+
+# Key indicators
+#
+# Add the following bindings to i3 config file:
+#
+# bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+# bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
+[keyindicator]
+KEY=CAPS
+markup=pango
+interval=once
+signal=11

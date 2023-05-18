@@ -1,0 +1,155 @@
+#!/usr/bin/python3
+
+import os
+import sys
+import re
+from time import sleep
+
+_OUTPUT = os.getenv("output")
+FORMAT = _OUTPUT if _OUTPUT else "{cpu_format} {temp_format}"
+
+_CPU_FORMAT = os.getenv("cpu_format")
+CPU_FORMAT = _CPU_FORMAT if _CPU_FORMAT else "CPU: {usage: >5.2f}%"
+
+_TEMP_FORMAT = os.getenv("temp_format")
+TEMP_FORMAT = _TEMP_FORMAT if _TEMP_FORMAT else "{temp}C"
+
+_DELAY = os.getenv("delay")
+READ_IDLE = float(_DELAY) if _DELAY and _DELAY.isdigit() else 1.0
+
+_INTERVAL = os.getenv("interval")
+PERSIST = _INTERVAL == "persist"
+
+_TTMED = os.getenv("temp_threshold_med")
+_TTHIGH = os.getenv("temp_threshold_high")
+TEMP_THRESHOLD_MED = int(_TTMED) if _TTMED and _TTMED.isdigit() else 65
+TEMP_THRESHOLD_HIGH = int(_TTHIGH) if _TTHIGH and _TTHIGH.isdigit() else 80
+
+_TMED = os.getenv("threshold_med")
+_THIGH = os.getenv("threshold_high")
+THRESHOLD_MED = int(_TMED) if _TMED and _TMED.isdigit() else 60
+THRESHOLD_HIGH = int(_THIGH) if _THIGH and _THIGH.isdigit() else 80
+
+_MED_COLOR = os.getenv("med_color")
+_HIGH_COLOR = os.getenv("high_color")
+MED_COLOR = _MED_COLOR if _MED_COLOR and _MED_COLOR.startswith("#") and _MED_COLOR[1:].isdigit() else "#EED202"
+HIGH_COLOR = _HIGH_COLOR if _HIGH_COLOR and _HIGH_COLOR.startswith("#") and _HIGH_COLOR[1:].isdigit() else "#D9004C"
+
+_CPU_ICON = os.getenv("cpu_icon")
+_CPU_ICON_MED = os.getenv("cpu_icon_med")
+_CPU_ICON_HIGH = os.getenv("cpu_icon_high")
+CPU_ICON = _CPU_ICON if _CPU_ICON else None
+CPU_ICON_MED = _CPU_ICON_MED if _CPU_ICON_MED else CPU_ICON
+CPU_ICON_HIGH = _CPU_ICON_HIGH if _CPU_ICON_HIGH else CPU_ICON_MED
+
+_TEMP_ICON = os.getenv("temp_icon")
+_TEMP_ICON_MED = os.getenv("temp_icon_med")
+_TEMP_ICON_HIGH = os.getenv("temp_icon_high")
+TEMP_ICON = _TEMP_ICON if _TEMP_ICON else None
+TEMP_ICON_MED = _TEMP_ICON_MED if _TEMP_ICON_MED else TEMP_ICON
+TEMP_ICON_HIGH = _TEMP_ICON_HIGH if _TEMP_ICON_HIGH else TEMP_ICON_MED
+
+USER      = 0
+NICE      = 1
+SYSTEM    = 2
+IDLE      = 3
+IOWAIT    = 4
+IRQ       = 5
+SOFTIRQ   = 6
+STEAL     = 7
+GUEST     = 8
+GUEST_NICE= 9
+TEMP      = 10
+
+NUM_ENTRIES = 11
+
+TICKS = os.sysconf(os.sysconf_names['SC_CLK_TCK'])
+
+def find_temp_file() -> str:
+    dir = "/sys/class/thermal/"
+    for filename in os.listdir(dir):
+        if "thermal_zone" not in filename: continue
+        file = os.path.join(dir, filename, "type")
+        if os.path.isfile(file):
+            with open(file, "r", encoding="utf-8") as f:
+                if "x86" in f.readline(): return os.path.join(dir, filename, "temp")
+
+
+def read_proc() -> list:
+    info = None
+    with open("/proc/stat", "r", encoding='utf-8') as proc:
+        for line in proc:
+            if re.search("cpu ", line): info = [int(x) for x in line.split() if x != "cpu"]
+    with open(find_temp_file(), "r") as temp:
+        info.append(int(temp.read().replace('\n', ''))/1000)
+    return info
+
+def update_cpu() -> list:
+    sleep(READ_IDLE)
+    return read_proc()
+
+def get_cpu_difference(cpu_start: list, cpu_end: list) -> list:
+    return [y - x for (x, y) in zip(cpu_start[:-1], cpu_end[:-1])] + [cpu_end[TEMP]]
+
+def get_cpu_time() -> float:
+    return get_cpu_difference(read_proc(), update_cpu())
+    # return ((sum - cpu_time[IDLE]) / sum
+
+def get_total_usage(cpu_time: list[int]) -> float:
+    cpu_sum = sum(cpu_time[:-1])
+    return ((cpu_sum - cpu_time[IDLE]) / cpu_sum) * 100
+
+def get_user_usage(cpu_time: list[int]) -> float:
+    cpu_sum = sum(cpu_time[:-1])
+    return ((cpu_sum - cpu_time[IDLE] - cpu_time[USER]) / cpu_sum) * 100
+
+def get_system_usage(cpu_time: list[int]) -> float:
+    cpu_sum = sum(cpu_time[:-1])
+    return ((cpu_sum - cpu_time[IDLE] - cpu_time[SYSTEM]) / cpu_sum) * 100
+
+def get_color(usage: float, med: float, high:float) -> str:
+    if usage < med: return None
+    elif usage >= med and usage < high: return MED_COLOR
+    else: return HIGH_COLOR
+
+def get_icon(usage: float, med: float, high: float, ilow: str, imed: str, ihigh: str) -> str:
+    if not ilow: return ""
+    if usage < med: return ilow
+    elif usage >= med and usage < high: return imed
+    else: return ihigh
+
+def get_cpu_icon(usage: float, med: float, high:float) -> str:
+    return get_icon(usage, med, high, CPU_ICON, CPU_ICON_MED, CPU_ICON_HIGH)
+
+def get_temp_icon(usage: float, med: float, high: float) -> str:
+    return get_icon(usage, med, high, TEMP_ICON, TEMP_ICON_MED, TEMP_ICON_HIGH)
+
+def color_str(color, string):
+    if not color: return f"<span>{string}</span>"
+    return f"<span foreground=\"{color}\">{string}</span>"
+
+
+def format_cpu(cpu_time) -> str:
+    try:
+        cpu_usage = get_total_usage(cpu_time)
+        cpustr = color_str(get_color(cpu_usage, THRESHOLD_MED, THRESHOLD_HIGH),\
+                        CPU_FORMAT.format(usage=cpu_usage, user_usage=get_user_usage(cpu_time),\
+                                            sys_usage=get_system_usage(cpu_time),\
+                                            icon=get_cpu_icon(cpu_usage, THRESHOLD_MED, THRESHOLD_HIGH)))
+        tempstr = color_str(get_color(cpu_time[TEMP], TEMP_THRESHOLD_MED, TEMP_THRESHOLD_HIGH),\
+                            TEMP_FORMAT.format(temp=cpu_time[TEMP],\
+                                            icon=get_temp_icon(cpu_time[TEMP], TEMP_THRESHOLD_MED, TEMP_THRESHOLD_HIGH)))
+        return FORMAT.format(cpu_format=cpustr, temp_format=tempstr)
+    except Exception as e:
+        return f"<span foreground=\"{HIGH_COLOR}\">Invalid format: {e}</span>"
+
+
+
+def print_cpu_loop():
+    while True:
+        print(format_cpu(get_cpu_time()))
+        sys.stdout.flush()
+
+if __name__ == "__main__":
+    if not PERSIST: print(format_cpu(read_proc()))
+    else: print_cpu_loop()

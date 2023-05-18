@@ -1,0 +1,17 @@
+alias la='ls -a'
+alias lal='ls -lah'
+
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+
+alias luamake=/opt/lua-language-server/3rd/luamake/luamake
+
+alias icat="kitty +kitten icat"
+alias cp="cp -i"                                                # Confirm before overwriting something
+alias df='df -h'                                                # Human-readable sizes
+alias free='free -m'                                            # Show sizes in MB
+
+alias sem8="cd /mixed/Documents/semester8"
+
+cdm() {
+  mkdir $1 && cd "$_"
+}

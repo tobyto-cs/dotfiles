@@ -1,0 +1,52 @@
+# inject:
+#   unique_identifier:
+#     file: 'path/to/config_file'
+#     template: 'name_of_template'
+#     subtemplate: 'Default = default'
+#     callback: 'command to run after injection'
+#     start: 'cbase16::start'
+#     end: 'cbase16::end'
+
+inject:
+  i3_colors:
+    file: '/home/jeremy/.i3/config'
+    template: 'i3'
+    subtemplate: 'colors'
+    callback: 'i3-msg restart --quiet'
+  kitty:
+    file: '/home/jeremy/.config/kitty/kitty.conf'
+    template: 'kitty'
+    subtemplate: 'default-256'
+    # callback: 'pgrep kitty | while read pid; do kill -SIGUSR1 $pid; done'
+  xresources:
+    file: '/home/jeremy/.Xresources'
+    template: 'xresources'
+    subtemplate: 'default-256'
+  zsh-colors:
+    file: '/home/jeremy/.zsh/zsh-colors'
+    template: 'zsh'
+  zsh-theme:
+    file: '/home/jeremy/.zsh/zsh-theme'
+    template: 'shell'
+      # callback: 'killall -SIGUSR1 zsh -q 2> /dev/null'
+  gtk2:
+    file: '/home/jeremy/.themes/FlatColor/colors2'
+    template: 'custflatcolor'
+    subtemplate: 'gtk-2'
+  gtk3:
+    file: '/home/jeremy/.themes/FlatColor/colors3tmp'
+    template: 'custflatcolor'
+    subtemplate: 'gtk-3'
+    callback: '/home/jeremy/.config/cbase16/scripts/gtk_update'
+  lualine:
+    file: '/home/jeremy/.config/nvim/lua/lualine-theme.lua'
+    template: 'lualine'
+  vim:
+    file: '/home/jeremy/.config/nvim/colors/base16.vim'
+    template: 'custnvim'
+  nvim:
+    file: '/home/jeremy/.config/nvim/lua/config/nvim-base16.lua'
+    template: 'nvim-base16'
+  rofi:
+    file: '/home/jeremy/.config/rofi/base16.rasi'
+    template: 'rofi'

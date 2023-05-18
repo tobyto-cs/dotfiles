@@ -1,0 +1,148 @@
+#!/usr/bin/python3
+
+import os
+import sys
+from time import sleep
+
+_OUTPUT = os.getenv("output")
+OUTPUT = _OUTPUT if _OUTPUT else "{mem_format} {swap_format}"
+
+_MEM_FORMAT = os.getenv("mem_format")
+MEM_FORMAT = _MEM_FORMAT if _MEM_FORMAT else "MEM: {usage: >5.2f}%"
+
+_SWAP_FORMAT = os.getenv("mem_format")
+SWAP_FORMAT = _SWAP_FORMAT if _SWAP_FORMAT else "SWAP: {usage: >5.2f}%"
+
+_DELAY = os.getenv("delay")
+READ_IDLE = float(_DELAY) if _DELAY and _DELAY.isdigit() else 1.0
+
+_UNIT = os.getenv("unit")
+UNIT = _UNIT.upper() if _UNIT else "GB"
+
+_INTERVAL = os.getenv("interval")
+PERSIST = _INTERVAL == "persist"
+
+_TMED = os.getenv("threshold_med")
+_THIGH = os.getenv("threshold_high")
+THRESHOLD_MED = int(_TMED) if _TMED and _TMED.isdigit() else 60
+THRESHOLD_HIGH = int(_THIGH) if _THIGH and _THIGH.isdigit() else 80
+
+_MED_COLOR = os.getenv("med_color")
+_HIGH_COLOR = os.getenv("high_color")
+MED_COLOR = _MED_COLOR if _MED_COLOR and _MED_COLOR.startswith("#") and _MED_COLOR[1:].isdigit() else "#EED202"
+HIGH_COLOR = _HIGH_COLOR if _HIGH_COLOR and _HIGH_COLOR.startswith("#") and _HIGH_COLOR[1:].isdigit() else "#D9004C"
+
+_MEM_ICON = os.getenv("mem_icon")
+_MEM_ICON_MED = os.getenv("mem_icon_med")
+_MEM_ICON_HIGH = os.getenv("mem_icon_high")
+MEM_ICON = _MEM_ICON if _MEM_ICON else None
+MEM_ICON_MED = _MEM_ICON_MED if _MEM_ICON_MED else MEM_ICON
+MEM_ICON_HIGH = _MEM_ICON_HIGH if _MEM_ICON_HIGH else MEM_ICON_MED
+
+_SWAP_ICON = os.getenv("swap_icon")
+_SWAP_ICON_MED = os.getenv("swap_icon_med")
+_SWAP_ICON_HIGH = os.getenv("swap_icon_high")
+SWAP_ICON = _SWAP_ICON if _SWAP_ICON else None
+SWAP_ICON_MED = _SWAP_ICON_MED if _SWAP_ICON_MED else SWAP_ICON
+SWAP_ICON_HIGH = _SWAP_ICON_HIGH if _SWAP_ICON_HIGH else SWAP_ICON_MED
+
+TOTAL      = 0
+FREE       = 1
+BUFFERS    = 2
+CACHED     = 3
+AVAILABLE  = 4
+SWAP_TOTAL = 5
+SWAP_FREE  = 6
+SLAB       = 7
+
+NUM_ENTRIES = 8
+
+
+def read_proc() -> list:
+    meminfo = [None] * NUM_ENTRIES
+    with open("/proc/meminfo", "r", encoding="utf-8") as proc:
+        for line in proc:
+            if not meminfo[TOTAL] and "MemTotal" in line: meminfo[TOTAL] = convert_kb(float(line.split()[1]))
+            elif not meminfo[FREE] and "MemFree" in line: meminfo[FREE] = convert_kb(float(line.split()[1]))
+            elif not meminfo[BUFFERS] and "Buffers" in line: meminfo[BUFFERS] = convert_kb(float(line.split()[1]))
+            elif not meminfo[CACHED] and "Cached" in line: meminfo[CACHED] = convert_kb(float(line.split()[1]))
+            elif not meminfo[AVAILABLE] and "MemAvailable" in line: meminfo[AVAILABLE] = convert_kb(float(line.split()[1]))
+            elif not meminfo[SWAP_TOTAL] and "SwapTotal" in line: meminfo[SWAP_TOTAL] = convert_kb(float(line.split()[1]))
+            elif not meminfo[SWAP_FREE] and "SwapFree" in line: meminfo[SWAP_FREE] = convert_kb(float(line.split()[1]))
+            elif not meminfo[SLAB] and "Slab" in line: meminfo[SLAB] = convert_kb(float(line.split()[1]))
+    assert(not None in meminfo)
+    return meminfo
+
+# All meminfo is by default in KB
+def convert_kb(x: float) -> float:
+    if UNIT == "KB": return x
+
+    if UNIT == "B": return x * 1024
+    if UNIT == "MB": return x / 1024
+    if UNIT == "GB": return x / 1024 / 1024
+    return x
+
+def get_mem_used(mem: list[float]) -> float:
+    return mem[TOTAL] - mem[FREE] - mem[BUFFERS] - mem[CACHED] - mem[SLAB]
+
+def get_mem_usage(mem: list[float]) -> float:
+    return (get_mem_used(mem) / mem[TOTAL]) * 100
+
+def get_swap_used(mem: list[float]) -> float:
+    return mem[SWAP_TOTAL] - mem[SWAP_FREE]
+
+def get_swap_usage(mem: list[float]) -> float:
+    return (get_swap_used(mem) / mem[SWAP_TOTAL]) * 100
+
+def get_color(usage: float) -> str:
+    if usage < THRESHOLD_MED: return None
+    elif usage >= THRESHOLD_MED and usage < THRESHOLD_HIGH: return MED_COLOR
+    else: return HIGH_COLOR
+
+def color_str(color, string):
+    if not color: return f"<span>{string}</span>"
+    return f"<span foreground=\"{color}\">{string}</span>"
+
+def get_icon(usage: float, med: float, high: float, ilow: str, imed: str, ihigh: str) -> str:
+    if not ilow: return ""
+    if usage < med: return ilow
+    elif usage >= med and usage < high: return imed
+    else: return ihigh
+
+def get_mem_icon(usage: float, med: float, high:float) -> str:
+    return get_icon(usage, med, high, MEM_ICON, MEM_ICON_MED, MEM_ICON_HIGH)
+
+def get_swap_icon(usage: float, med: float, high: float) -> str:
+    return get_icon(usage, med, high, SWAP_ICON, SWAP_ICON_MED, SWAP_ICON_HIGH)
+
+def format_mem(meminfo: list[float]):
+    try:
+        memusage = get_mem_usage(meminfo)
+        memstr = color_str(get_color(memusage),\
+                        MEM_FORMAT.format(usage=memusage,\
+                                used=get_mem_used(meminfo),\
+                                free=meminfo[FREE],\
+                                total=meminfo[TOTAL],\
+                                icon=get_mem_icon(memusage, THRESHOLD_MED, THRESHOLD_HIGH)))
+
+        swapusage = get_swap_usage(meminfo)
+        swapstr = color_str(get_color(swapusage),\
+                        SWAP_FORMAT.format(usage=swapusage,\
+                                    used=get_swap_used(meminfo),\
+                                    free=meminfo[SWAP_FREE],\
+                                    total=meminfo[SWAP_TOTAL],\
+                                    icon=get_swap_icon(swapusage, THRESHOLD_MED, THRESHOLD_HIGH)))
+
+        return OUTPUT.format(mem_format=memstr, swap_format=swapstr)
+    except Exception as e:
+        return f"<span foreground=\"{HIGH_COLOR}\">Invalid format: {e}</span>"
+
+def print_mem_loop():
+    while True:
+        print(format_mem(read_proc()))
+        sys.stdout.flush()
+        sleep(READ_IDLE)
+
+if __name__ == "__main__":
+    if PERSIST: print_mem_loop()
+    else: print(format_mem(read_proc()))
