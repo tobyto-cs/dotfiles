@@ -1,6 +1,8 @@
 #!/bin/sh
-packages=(wget rofi picom pango firefox cmake ctags)
-aur_packages=(pa-applet-git nvim-packer-git)
+packages=(wget rofi picom pango firefox unicode-emoji cmake ctags npm python-pip)
+aur_packages=(pa-applet-git nvim-packer-git ttf-twemoji-color)
+pip_packages=(neovim)
+npm_packages=(bash-language-server neovim)
 
 # YAY Installation for AUR packages
 
@@ -12,8 +14,10 @@ if $(lspci | grep -q 'NVIDIA'); then
 	packages+=(nvidia-dkms nvidia-settings nvidia-utils)
 fi
 
-sudo pacman -S --needed "${packages[@]}" 
+sudo pacman -S --needed "${packages[@]}"
 yay -S --needed "${aur_packages[@]}"
+pip install "${pip_packages[@]}"
+sudo npm i -g "${npm_packages[@]}"
 
 ### From Source
 
@@ -50,8 +54,3 @@ if [ ! -d "$firacode_dir" ]; then
 	wget -O $firacode_dir/FiraCodeNerdFontMono-Retina.ttf https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Retina/FiraCodeNerdFontMono-Retina.ttf
 	wget -O $firacode_dir/FiraCodeNerdFontMono-SemiBold.ttf https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/SemiBold/FiraCodeNerdFontMono-SemiBold.ttf
 fi
-
-
-## base16 Color Schemes
-# base16-rofi
-

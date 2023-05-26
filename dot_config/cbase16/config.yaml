@@ -28,11 +28,12 @@ inject:
   zsh-theme:
     file: '/home/jeremy/.zsh/zsh-theme'
     template: 'shell'
-      # callback: 'killall -SIGUSR1 zsh -q 2> /dev/null'
+    # callback: 'killall -SIGUSR1 zsh -q 2> /dev/null'
   gtk2:
     file: '/home/jeremy/.themes/FlatColor/colors2'
     template: 'custflatcolor'
     subtemplate: 'gtk-2'
+    callback: '/home/jeremy/.config/cbase16/scripts/gtk_update'
   gtk3:
     file: '/home/jeremy/.themes/FlatColor/colors3tmp'
     template: 'custflatcolor'
