@@ -7,8 +7,3 @@ require('hop').setup({
   char2_fallback_key = '<CR>',
   quit_key='<Esc>',
 })
-
-vim.keymap.set('n', 'f', function()
-  return require('hop').hint_char2()
-end,
-{ silent = true, noremap = true, desc = "nvim-hop char2" })

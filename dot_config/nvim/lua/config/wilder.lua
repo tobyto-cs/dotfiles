@@ -63,10 +63,6 @@ local popupmenu_renderer = wilder.popupmenu_renderer(
         icons = {['+'] = '', a = '', h = ''},
       }),
     },
-    -- right = {
-    --   ' ',
-    --   wilder.popupmenu_scrollbar(),
-    -- },
   })
 )
 

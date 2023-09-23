@@ -46,13 +46,12 @@ set scrolloff=4
 
 set number relativenumber
 
-set mouse=nic
 set mousemodel=popup
 
 set noshowmode " for when I have a statusline plugin
 
 " ask for confirmation when handling unsaved/readonly files
-set confirm 
+set confirm
 
 set visualbell noerrorbells
 set history=500
@@ -95,3 +94,12 @@ set nostartofline
 set signcolumn=auto:2
 
 set nowrap
+
+set undolevels=1001
+
+lua vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+set sessionoptions+=winpos,terminal,folds,globals
+
+" Seperators for splits
+set fillchars+=horiz:━,horizup:┻,horizdown:┳
+set fillchars+=vert:┃,vertleft:┫,vertright:┣,verthoriz:╋

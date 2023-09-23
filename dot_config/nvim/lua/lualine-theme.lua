@@ -1,15 +1,15 @@
 -- cbase16::start
 local colors = {
-  black        = '#292c36',
-  white        = '#d8d8d8',
-  red          = '#f84547',
-  green        = '#95c76f',
-  blue         = '#8485ce',
-  yellow       = '#efa16b',
-  gray         = '#e8e8e8',
-  darkgray     = '#333344',
-  lightgray    = '#474160',
-  inactivegray = '#d8d8d8',
+  black        = '#1e1e1e',
+  white        = '#a7a7a7',
+  red          = '#cf6a4c',
+  green        = '#8f9d6a',
+  blue         = '#7587a6',
+  yellow       = '#f9ee98',
+  gray         = '#c3c3c3',
+  darkgray     = '#323537',
+  lightgray    = '#464b50',
+  inactivegray = '#a7a7a7',
 }
 -- cbase16::end
 

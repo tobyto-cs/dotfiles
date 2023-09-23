@@ -14,7 +14,7 @@ nvim_tree.setup({
 		-- height = 30,
 		hide_root_folder = false,
 		side = "left",
-		preserve_window_proportions = false,
+		preserve_window_proportions = true,
 		number = false,
 		relativenumber = false,
 		signcolumn = "yes",
@@ -109,4 +109,3 @@ nvim_tree.setup({
 	},
 })
 
-vim.keymap.set("n", "<space>s", ":NvimTreeToggle<CR>", { noremap = true, silent = true, desc = "toggle nvim-tree" })

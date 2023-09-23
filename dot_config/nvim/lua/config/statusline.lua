@@ -1,9 +1,11 @@
+local hydra = require('hydra.statusline')
+
 local function cur_function()
   local vvar = vim.b.vista_nearest_method_or_function
   if vvar == nil or vvar == "" then
-    return vim.fn.expand('%:t')
+    return '󱈠'
   end
-  return string.format("[%s]", vvar)
+  return string.format("󰓹 %s", vvar)
 end
 
 local lualine = require('lualine')
@@ -16,14 +18,14 @@ lualine.setup({
     section_separators = { left = '', right = ''},
     disabled_filetypes = {},
     always_divide_middle = true,
-    globalstatus = false,
+    globalstatus = true,
   },
   sections = {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = { cur_function },
     lualine_x = {'filetype'},
-    lualine_y = {'ObsessionStatus'},
+    lualine_y = {},
     lualine_z = {'location'}
   },
   inactive_sections = {

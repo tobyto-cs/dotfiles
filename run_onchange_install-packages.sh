@@ -1,6 +1,6 @@
 #!/bin/sh
-packages=(wget rofi picom pango firefox unicode-emoji cmake ctags npm python-pip)
-aur_packages=(pa-applet-git nvim-packer-git ttf-twemoji-color)
+packages=(wget rofi picom pango firefox unicode-emoji cmake ctags npm python-pip lldb)
+aur_packages=(pa-applet-git nvim-packer-git ttf-twemoji-color lua-language-server-git codelldb-git)
 pip_packages=(neovim)
 npm_packages=(bash-language-server neovim)
 
@@ -8,6 +8,9 @@ npm_packages=(bash-language-server neovim)
 
 # Pipewire requirements
 packages+=(pipewire pipewire-pulse pipewire-alsa pipewire-jack wireplumber)
+
+# Arch Packages
+packages+=(ccls-git)
 
 # Check GPU for comp
 if $(lspci | grep -q 'NVIDIA'); then

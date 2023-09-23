@@ -9,7 +9,7 @@
 
 inject:
   i3_colors:
-    file: '/home/jeremy/.i3/config'
+    file: '/home/jeremy/.config/i3/config'
     template: 'i3'
     subtemplate: 'colors'
     callback: 'i3-msg restart --quiet'
@@ -46,7 +46,7 @@ inject:
     file: '/home/jeremy/.config/nvim/colors/base16.vim'
     template: 'custnvim'
   nvim:
-    file: '/home/jeremy/.config/nvim/lua/config/nvim-base16.lua'
+    file: '/home/jeremy/.config/nvim/lua/theme/base16-colors.lua'
     template: 'nvim-base16'
   rofi:
     file: '/home/jeremy/.config/rofi/base16.rasi'
