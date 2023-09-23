@@ -17,6 +17,7 @@ if $(lspci | grep -q 'NVIDIA'); then
 	packages+=(nvidia-dkms nvidia-settings nvidia-utils)
 fi
 
+# Install required packages
 sudo pacman -S --needed "${packages[@]}"
 yay -S --needed "${aur_packages[@]}"
 pip install "${pip_packages[@]}"
@@ -47,6 +48,7 @@ if [ ! -d "$ZSH_DIR/zsh-history-substring-search" ]; then
 fi
 
 # Fira Code Mono Nerd Font
+# TODO: Replace with MonoLisa font
 firacode_dir=$HOME/.local/share/fonts/ttf/FiraCodeNerdFontMono
 if [ ! -d "$firacode_dir" ]; then
 	mkdir -p $firacode_dir
