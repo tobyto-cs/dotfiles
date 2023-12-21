@@ -78,8 +78,8 @@ set completeopt-=preview
 set pumheight=10
 
 " pseudo transparency
-set pumblend=10
-set winblend=5
+" set pumblend=10
+" set winblend=5
 
 set shiftround
 
@@ -97,9 +97,12 @@ set nowrap
 
 set undolevels=1001
 
-lua vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+lua vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions,globals"
 set sessionoptions+=winpos,terminal,folds,globals
 
 " Seperators for splits
 set fillchars+=horiz:━,horizup:┻,horizdown:┳
 set fillchars+=vert:┃,vertleft:┫,vertright:┣,verthoriz:╋
+
+" Single statusline
+set laststatus=3

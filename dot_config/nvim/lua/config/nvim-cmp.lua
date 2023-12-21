@@ -75,11 +75,11 @@ cmp.setup({
     }),
   },
 	sources = {
-		{ name = "nvim_lsp" }, -- For nvim-lsp
+    { name = "luasnip", group_index = 1 },
 		{ name = "nvim_lua" }, -- for nvim lua function
-		{ name = "path" }, -- for path completion
-    { name = "luasnip" },
-		{ name = "buffer", keyword_length = 4 }, -- for buffer word completion
+		{ name = "path", group_index = 1 }, -- for path completion
+		{ name = "nvim_lsp", group_index = 3 }, -- For nvim-lsp
+		{ name = "buffer", group_index = 10, keyword_length = 3 }, -- for buffer word completion
 		{ name = "emoji", insert = true }, -- emoji completion
 	},
 	completion = {
@@ -93,10 +93,10 @@ cmp.setup({
 		format = lspkind.cmp_format({
 			mode = "symbol_text",
 			menu = {
-				nvim_lsp = "[LSP]",
 				nvim_lua = "[Lua]",
         luasnip = "[LSnip]",
 				path = "[Path]",
+				nvim_lsp = "[LSP]",
 				buffer = "[Buffer]",
 				emoji = "[Emoji]",
 				omni = "[Omni]",

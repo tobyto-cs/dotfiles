@@ -4,7 +4,7 @@ autocmd Signal SIGUSR1 source $HOME/.config/nvim/core/colortheme.vim
 "
 " If you want to show the nearest function in your statusline automatically,
 " you can add the following line to your vimrc
-" autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
 autocmd FileType javascript let b:delimitMate_matchpairs = "(:),[:],{:}"
 

@@ -1,6 +1,6 @@
-local api = vim.api
 local lsp = vim.lsp
-local configs = require("lspconfig.configs")
+
+local M = {}
 
 local border = {
 	{ "🭽", "FloatBorder" },
@@ -13,8 +13,16 @@ local border = {
 	{ "▏", "FloatBorder" },
 }
 
+M.floatOpts = {
+  focusable = false,
+  close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+  border = border,
+  source = "always", -- show source in diagnostic popup window
+  prefix = " ",
+}
+
 -- LSP settings (for overriding per client)
-local handlers = {
+M.handlers = {
 	["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
 	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
 	["eslint/probeFailed"] = function()
@@ -29,12 +37,8 @@ local handlers = {
 	end,
 }
 
-local custom_attach = function(client, bufnr)
-	-- Mappings.
-
+M.custom_attach = function(client, bufnr)
 	local cap = client.server_capabilities
-
-
 	vim.api.nvim_create_autocmd("CursorHold", {
 		buffer = bufnr,
 		callback = function()
@@ -44,14 +48,7 @@ local custom_attach = function(client, bufnr)
 					return
 				end
 			end
-			local opts = {
-				focusable = false,
-				close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-				border = border,
-				source = "always", -- show source in diagnostic popup window
-				prefix = " ",
-			}
-			vim.diagnostic.open_float(nil, opts)
+			vim.diagnostic.open_float(nil, M.floatOpts)
 		end,
 	})
 
@@ -75,23 +72,23 @@ local custom_attach = function(client, bufnr)
 
 	if vim.g.logging_level == "debug" then
 		local msg = string.format("Language server %s started!", client.name)
-		vim.notify(msg, "info", { title = "Nvim-config" })
+		vim.notify(msg, 0, { title = "Nvim-config" })
 	end
 end
 
 -- Disable inline diagnostics
 vim.diagnostic.config({ virtual_text = false })
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities(lsp.protocol.make_client_capabilities())
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+M.capabilities = require("cmp_nvim_lsp").default_capabilities(lsp.protocol.make_client_capabilities())
+M.capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local lspconfig = require("lspconfig")
 
 -- lua-language-server
 lspconfig.lua_ls.setup({
-	handlers = handlers,
-	on_attach = custom_attach,
-	capabilities = capabilities,
+	handlers = M.handlers,
+	on_attach = M.custom_attach,
+	capabilities = M.capabilities,
 	settings = {
 		Lua = {
 			diagnostics = {
@@ -107,14 +104,15 @@ lspconfig.lua_ls.setup({
 	},
 })
 
+
 -- regen100 cmake-language-server
 lspconfig.cmake.setup({})
 
 -- MaskRay ccls server
 lspconfig.ccls.setup({
-	handlers = handlers,
-	on_attach = custom_attach,
-	capabilities = capabilities,
+	handlers = M.handlers,
+	on_attach = M.custom_attach,
+	capabilities = M.capabilities,
 	root_dir = lspconfig.util.root_pattern("compile_commands.json", "build", ".git"),
 	init_options = {
 		highlight = { lsRanges = true },
@@ -124,30 +122,30 @@ lspconfig.ccls.setup({
 
 -- bash-lsp bash-language-server
 lspconfig.bashls.setup({
-	handlers = handlers,
-	on_attach = custom_attach,
-	capabilities = capabilities,
+	handlers = M.handlers,
+	on_attach = M.custom_attach,
+	capabilities = M.capabilities,
 })
 
 -- python-lsp python-lsp-server
 lspconfig.pylsp.setup({
-	handlers = handlers,
-	on_attach = custom_attach,
-	capabilities = capabilities,
+	handlers = M.handlers,
+	on_attach = M.custom_attach,
+	capabilities = M.capabilities,
 })
 
 --  marksman markdown-lsp-server
 lspconfig.marksman.setup({
-	handlers = handlers,
-	on_attach = custom_attach,
-	capabilities = capabilities,
+	handlers = M.handlers,
+	on_attach = M.custom_attach,
+	capabilities = M.capabilities,
 })
 
 -- aca emmet-ls
 lspconfig.emmet_ls.setup({
-	on_attach = custom_attach,
-	handlers = handlers,
-	capabilities = capabilities,
+	handlers = M.handlers,
+	on_attach = M.custom_attach,
+	capabilities = M.capabilities,
 	root_dir = lspconfig.util.root_pattern(".git"),
 	filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
 	init_options = {
@@ -161,33 +159,43 @@ lspconfig.emmet_ls.setup({
 })
 
 lspconfig.tsserver.setup({
-	on_attach = custom_attach,
-	handlers = handlers,
-	capabilities = capabilities,
+	handlers = M.handlers,
+	on_attach = M.custom_attach,
+	capabilities = M.capabilities,
 })
 
 -- hrsh7th vscode-language-servers
 lspconfig.eslint.setup({
-	on_attach = custom_attach,
-	handlers = handlers,
+	handlers = M.handlers,
+	on_attach = M.custom_attach,
+	capabilities = M.capabilities,
 	root_dir = lspconfig.util.root_pattern(".git"),
-	capabilities = capabilities,
 })
 lspconfig.cssls.setup({
-	on_attach = custom_attach,
-	handlers = handlers,
+	handlers = M.handlers,
+	on_attach = M.custom_attach,
+	capabilities = M.capabilities,
 	root_dir = lspconfig.util.root_pattern(".git"),
-	capabilities = capabilities,
 })
 lspconfig.html.setup({
-	on_attach = custom_attach,
-	handlers = handlers,
+	handlers = M.handlers,
+	on_attach = M.custom_attach,
+	capabilities = M.capabilities,
 	root_dir = lspconfig.util.root_pattern(".git"),
-	capabilities = capabilities,
 })
 lspconfig.jsonls.setup({
-	on_attach = custom_attach,
-	handlers = handlers,
+	handlers = M.handlers,
+	on_attach = M.custom_attach,
+	capabilities = M.capabilities,
 	root_dir = lspconfig.util.root_pattern(".git"),
-	capabilities = capabilities,
 })
+
+lspconfig.pyright.setup({
+	handlers = M.handlers,
+	on_attach = M.custom_attach,
+	capabilities = M.capabilities,
+	-- root_dir = cmakeconfig.util.root_pattern(".git"),
+})
+
+
+return M

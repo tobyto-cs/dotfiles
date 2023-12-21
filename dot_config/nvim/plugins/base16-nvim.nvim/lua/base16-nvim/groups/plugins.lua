@@ -75,11 +75,14 @@ function M.setup()
   -- barbar Tabline Highlighting
   hi("BufferCurrent",       "b5", "b0", { "bold" })
   hi("BufferCurrentSign",   "b5", "b0")
+  hi("BufferCurrentIcon",   nil,  "b0")
   hi("BufferCurrentMod",    "b8", "b0", { "bold" })
 
-  hi("BufferVisible",       "b5", "b1")
-  hi("BufferVisibleSign",   "b5", "b1")
+  hi("BufferVisible",       "b5", "b0")
+  hi("BufferVisibleSign",   "b5", "b0")
   hi("BufferVisibleMod",    "b8", "b0")
+  hi("BufferVisibleIcon",   nil,  "b0")
+  hi("BufferVisibleSign",   nil,  "b0")
 
   hi("BufferInactive",      "b3", "b1", { "italic" })
   hi("BufferInactiveSign",  "b3", "b1")
@@ -87,6 +90,11 @@ function M.setup()
 
   -- neo-tree Highlighting
   hi("NeoTreeCursorLine", nil, "b0", { "default", "italic" })
+  hi("NeoTreeGitModified", nil, "b0")
+  hi("NeoTreeGitRenamed", nil, "b0")
+  hi("NeoTreeGitDeleted", nil, "b0")
+  hi("NeoTreeGitStaged", nil, "b0")
+  hi("NeoTreeGitAdded", nil, "b0")
 
   -- heirline StatusLine Highlighting
   hi("heirlineModeNormal", "b0", "b7")
@@ -94,6 +102,52 @@ function M.setup()
   hi("heirlineModeReplace", "b0", "b8")
   hi("heirlineModeCommand", "b0", "bB")
   hi("heirlineModeVisual", "b0", "bA")
+
+  -- dap
+  hi("DapSign", "b8", nil)
+  -- dap-ui
+  hi("DapUIStop", "b8", nil)
+  hi("DapUIStopNC", "b8", nil)
+  hi("DapUIWatchesError", "b8", nil)
+  hi("DapUIWatchesEmpty", "b8", nil)
+  hi("DapUIBreakpointsCurrentLine", "bB", nil, { "bold" })
+  hi("DapUICurrentFrameName", "bB", nil, { "bold" })
+  hi("DapUIBreakpointsInfo", "bB", nil)
+  hi("DapUIWatchesValue", "bB", nil)
+  hi("DapUIPlayPauseNC", "bB", nil)
+  hi("DapUIPlayPause", "bB", nil)
+  hi("DapUIRestartNC", "bB", nil)
+  hi("DapUIRestart", "bB", nil)
+  hi("DapUIThread", "bB", nil)
+  hi("DapUIBreakpointsPath", "bC", nil)
+  hi("DapUIBreakpointsLine", "bC", nil)
+  hi("DapUIStoppedThread", "bC", nil)
+  hi("DapUIModifiedValue", "bC", nil, { "bold" })
+  hi("DapUIFloatBorder", "bC", nil)
+  hi("DapUIStepOverNC", "bC", nil)
+  hi("DapUIStepOver", "bC", nil)
+  hi("DapUIStepIntoNC", "bC", nil)
+  hi("DapUIStepInto", "bC", nil)
+  hi("DapUIStepBackNC", "bC", nil)
+  hi("DapUIStepBack", "bC", nil)
+  hi("DapUIStepOutNC", "bC", nil)
+  hi("DapUIStepOut", "bC", nil)
+  hi("DapUILineNumber", "bC", nil)
+  hi("DapUIDecoration", "bC", nil)
+  hi("DapUIWinSelect", "bC", nil, { "bold" })
+  hi("DapUIScope", "bC", nil)
+  hi("DapUISource", "bE", nil)
+  hi("DapUIType", "bE", nil)
+
+
+
+  -- hydra Highlighting
+  hi("HydraRed", "b8", nil)
+  hi("HydraBlue", "bC", nil)
+  hi("HydraAmaranth", "b9", nil)
+  hi("HydraTeal", "bD", nil)
+  hi("HydraPink", "bE", nil)
+
 end
 
 return M

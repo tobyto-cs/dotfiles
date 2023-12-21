@@ -35,7 +35,7 @@ function M.setup()
   hi("NonText",       "b3", nil)
   hi("LineNr",        "b5", "b0")
   hi("SignColumn",    "b5", "b1")
-  hi("StatusLine",    "b4", "b2")
+  hi("StatusLine",    "b4", "b0")
   hi("StatusLineNC",  "b3", "b1")
   hi("VertSplit",     "b1", "b0")
   hi("ColorColumn",   nil, "b1")
@@ -84,6 +84,9 @@ function M.setup()
   hi("SpellLocal",   nil, "b", { "undercurl" }, "bC")
   hi("SpellCap",     nil, "b", { "undercurl" }, "bD")
   hi("SpellRare",    nil, "b", { "undercurl" }, "bE")
+
+  -- Floating windows
+  hi("NormalFloat", "b5", "b1")
 end
 
 return M

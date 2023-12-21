@@ -28,7 +28,7 @@ nmap('^', '^g')
 nmap('0', 'g0')
 
   -- Jump to matching pairs in normal mode
-nmap('<Tab>', '%')
+-- nmap('<Tab>', '%')
 
   -- Goto start or end
 nmap('H', '^')

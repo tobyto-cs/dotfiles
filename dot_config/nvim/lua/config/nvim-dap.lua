@@ -1,6 +1,12 @@
 local dap = require('dap');
 vim.g.dap_prev_executable = ""
 
+vim.fn.sign_define("DapBreakpoint", { text='', texthl="DapSign" })
+vim.fn.sign_define("DapBreakpointCondition", { text='', texthl="DapSign" } )
+vim.fn.sign_define("DapLogPoint", { text='', texthl="DapSign" } )
+vim.fn.sign_define("DapStopped", { text='', texthl="DapSign" } )
+vim.fn.sign_define("DapBreakpointRejected", { text='', texthl="DapSign" } )
+
 dap.adapters.codelldb = {
   type = 'server',
   port = "13000",

@@ -10,7 +10,7 @@ nnoremap 0 g0
 xnoremap $ g_
 
 " Jump to matching pairs easily in normal mode
-nnoremap <Tab> %
+" nnoremap <Tab> %
 
 " Go to start or end of line easier
 nnoremap H ^
@@ -24,8 +24,8 @@ xnoremap < <gv
 xnoremap > >gv
 
 " Tab-complete, see https://vi.stackexchange.com/q/19675/15292.
-inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+" inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 " Reselect the text that has just been pasted, see also https://stackoverflow.com/a/4317090/6064933.
 nnoremap <expr> <leader>v printf('`[%s`]', getregtype()[0])
@@ -55,23 +55,10 @@ endif
 " register, see also https://stackoverflow.com/q/10723700/6064933.
 xnoremap p "_c<ESC>p
 
-nnoremap <Left> <C-W>h
-nnoremap <Right> <C-W>l
-nnoremap <Up> <C-W>k
-nnoremap <Down> <C-W>j
+" nnoremap <Left> <C-W>h
+" nnoremap <Right> <C-W>l
+" nnoremap <Up> <C-W>k
+" nnoremap <Down> <C-W>j
 
 " Do not move my cursor when joining lines.
 nnoremap J mzJ`z
-
-" Tab keybinds, see tabline.lua config for extras
-nnoremap <leader>tn <Cmd>:tabnext<Cr>
-nnoremap <leader>tp <Cmd>:tabprevious<Cr>
-nnoremap <leader>tt <Cmd>:tabnew<Cr>
-nnoremap <space><up> <Cmd>:tabnext<Cr>
-nnoremap <space><down> <Cmd>:tabnext<Cr>
-
-"" Telescope mappings
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
