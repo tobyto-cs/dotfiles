@@ -46,16 +46,3 @@ if [ ! -d "$ZSH_DIR/zsh-history-substring-search" ]; then
 	mkdir -p https://github.com/zsh-users/zsh-syntax-highlighting.git
 	git clone https://github.com/zsh-users/zsh-history-substring-search $ZSH_DIR/zsh-history-substring-search
 fi
-
-# Fira Code Mono Nerd Font
-# TODO: Replace with MonoLisa font
-firacode_dir=$HOME/.local/share/fonts/ttf/FiraCodeNerdFontMono
-if [ ! -d "$firacode_dir" ]; then
-	mkdir -p $firacode_dir
-	wget -O $firacode_dir/FiraCodeNerdFontMono-Bold.ttf https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Bold/FiraCodeNerdFontMono-Bold.ttf
-	wget -O $firacode_dir/FiraCodeNerdFontMono-Light.ttf https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Light/FiraCodeNerdFont-Light.ttf
-	wget -O $firacode_dir/FiraCodeNerdFontMono-Medium.ttf https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Medium/FiraCodeNerdFontMono-Medium.ttf
-	wget -O $firacode_dir/FiraCodeNerdFontMono-Regular.ttf https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Regular/FiraCodeNerdFontMono-Regular.ttf
-	wget -O $firacode_dir/FiraCodeNerdFontMono-Retina.ttf https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Retina/FiraCodeNerdFontMono-Retina.ttf
-	wget -O $firacode_dir/FiraCodeNerdFontMono-SemiBold.ttf https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/SemiBold/FiraCodeNerdFontMono-SemiBold.ttf
-fi
