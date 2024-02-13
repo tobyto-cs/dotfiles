@@ -59,18 +59,16 @@ function M.setup()
   hi("StartifySlash",    "b3", nil)
   hi("StartifySpecial",  "b3", nil)
 
-  -- Floating Window highlighting
-  hi("FloatBorder", "b5", "b1" )
 
   -- cxx Lsp highlighting
   hi("LspCxxHlGroupNamespace", "b8", nil)
 
   -- GitGutters
-  hi("SignColumn", "b5", "b0")
-  hi("GitSignsAdd", "bB", "b0")
-  hi("GitSignsDelete", "b8", "b0")
-  hi("GitSignsChange", "bE", "b0")
-  hi("GitSignsChangedelete", "bE", "b0")
+  hi("SignColumn", "b5", nil)
+  hi("GitSignsAdd", "bB", nil)
+  hi("GitSignsDelete", "b8", nil)
+  hi("GitSignsChange", "bE", nil)
+  hi("GitSignsChangedelete", "bE", nil)
 
   -- barbar Tabline Highlighting
   hi("BufferCurrent",       "b5", "b0", { "bold" })
@@ -139,7 +137,8 @@ function M.setup()
   hi("DapUISource", "bE", nil)
   hi("DapUIType", "bE", nil)
 
-
+  -- lsp inlay hints 
+  hi("LspInlayHint", "b2", nil, { "italic" })
 
   -- hydra Highlighting
   hi("HydraRed", "b8", nil)
@@ -148,6 +147,10 @@ function M.setup()
   hi("HydraTeal", "bD", nil)
   hi("HydraPink", "bE", nil)
 
+
+  -- trouble
+  hi("TroubleCount", "bB", nil, { "bold" })
+  hi("TroubleOther", "b1", nil)
 end
 
 return M

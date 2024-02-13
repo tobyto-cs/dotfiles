@@ -1,17 +1,21 @@
-function map(mode, lhs, rhs, opts)
-  options = { noremap = true }
+local M = {}
+
+function M.map(mode, lhs, rhs, opts)
+  local options = { noremap = true }
   if opts then
     options = vim.tbl_extend("force", options, opts)
   end
   vim.keymap.set(mode, lhs, rhs, options)
 end
 
-function nmap(lhs, rhs, opts)
-  map("n", lhs, rhs, opts)
+function M.nmap(lhs, rhs, opts)
+  M.map("n", lhs, rhs, opts)
 end
-function xmap(lhs, rhs, opts)
-  map("x", lhs, rhs, opts)
+function M.xmap(lhs, rhs, opts)
+  M.map("x", lhs, rhs, opts)
 end
-function imap(lhs, rhs, opts)
-  map("i", lhs, rhs, opts)
+function M.imap(lhs, rhs, opts)
+  M.map("i", lhs, rhs, opts)
 end
+
+return M

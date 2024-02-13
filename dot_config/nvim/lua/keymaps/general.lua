@@ -1,71 +1,68 @@
-require('utils.keymaps')
+local keys = require('utils.keymaps')
 
   -- Save key strokes (now we do not need to press shift to enter command mode).
-nmap(";", ":")
-xmap(';', ':')
+keys.nmap(";", ":")
+keys.xmap(';', ':')
 
   -- Close location list or quickfix list if present
-nmap('\\x', ':<C-U>windo lclose <bar> cclose<CR>', { silent = true })
+keys.nmap('\\x', ':<C-U>windo lclose <bar> cclose<CR>', { silent = true })
   -- Close a buffer and switch to another buffer,
   -- Not closing the window
-nmap('\\d', ':<C-U>bprevious <bar> bdelete #<CR>', { silent = true })
+keys.nmap('\\d', ':<C-U>bprevious <bar> bdelete #<CR>', { silent = true })
 
 
   -- Insert blank line above/below current line (no move cursor)
-nmap('<Space>o', 'm`O<Esc>``')
-nmap('<Space>o', 'm`o<Esc>``')
+keys.nmap('<Space>o', 'm`O<Esc>``')
+keys.nmap('<Space>o', 'm`o<Esc>``')
 
   -- Move cursor based on physical lines, not actual lines.
-nmap('j', function()
+keys.nmap('j', function()
   if vim.v.count == 0 then return 'gj' end
   return 'j'
 end, { expr = true })
-nmap('k', function()
+keys.nmap('k', function()
   if vim.v.count == 0 then return 'gk' end
   return 'k'
 end, { expr = true })
-nmap('^', '^g')
-nmap('0', 'g0')
-
-  -- Jump to matching pairs in normal mode
--- nmap('<Tab>', '%')
+keys.nmap('^', '^g')
+keys.nmap('0', 'g0')
 
   -- Goto start or end
-nmap('H', '^')
-xmap('H', '^')
-nmap('L', 'g_')
-xmap('L', 'g_')
+keys.nmap('H', '^')
+keys.xmap('H', '^')
+keys.nmap('L', 'g_')
+keys.xmap('L', 'g_')
 
   -- Continuous visual shifting
-xmap('<', '<gv')
-xmap('>', '>gv')
+keys.xmap('<', '<gv')
+keys.xmap('>', '>gv')
 
   -- Reselect pasted text
-nmap('<leader>v', '`[v`]')
+keys.nmap('<leader>v', '`[v`]')
 
   -- Always use very magic mode for searching
-nmap('/', '/\\v')
+keys.nmap('/', '/\\v')
 
   -- Change text w/o putting into register
-nmap('c', '\"_c')
-nmap('C', '\"_C')
-nmap('cc', '\"_cc')
-xmap('c', '\"_c')
+keys.nmap('c', '\"_c')
+keys.nmap('C', '\"_C')
+keys.nmap('cc', '\"_cc')
+keys.xmap('c', '\"_c')
 
 
   -- Strip trailing whitespace
-nmap('<leader><space>', ':<C-U>StripTrailingWhitespace<CR>')
+keys.nmap('<leader><space>', ':<C-U>StripTrailingWhitespace<CR>')
 
   -- Window movement
-nmap('<Left>', '<C-W>h')
-nmap('<Right>', '<C-W>l')
-nmap('<Up>', '<C-W>k')
-nmap('<Down>', '<C-W>j')
+keys.nmap('<Left>', '<C-W>h')
+keys.nmap('<Right>', '<C-W>l')
+keys.nmap('<Up>', '<C-W>k')
+keys.nmap('<Down>', '<C-W>j')
 
   -- Do not move cursor when joining
-nmap('J', 'mzJ`z')
+keys.nmap('J', 'mzJ`z')
 
   -- Turn word under cursor to uppercase
-imap('<C-u>', '<Esc>viwUea')
+keys.imap('<C-u>', '<Esc>viwUea')
   -- Turn word under cursor to titlecase
-imap('<C-t>', '<Esc>b~lea')
+keys.imap('<C-t>', '<Esc>b~lea')
