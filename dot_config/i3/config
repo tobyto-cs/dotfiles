@@ -41,13 +41,16 @@ exec xrandr --fb 5760x2160 --output DP-0 --primary --mode 3840x2160 --pos 0x0 --
 exec ~/.screenlayout/3mon.sh
 
 # Picom configuration
-exec --no-startup-id picom --config ~/.config/picom/picom.conf -b
+# exec --no-startup-id picom --config ~/.config/picom/picom.conf -b
 exec_always hsetroot -solid '$base01'
 exec_always xsetroot -solid '$base01'
 
 # Pipewire Startup
 exec pipewire & pipewire-pulse & wireplumber
-exec spotifyd --no-daemon
+
+# Clipboard initialization
+exec --no-startup-id greenclip daemon>dev/null
+bindsym Mod1+c exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 new_window pixel 1
@@ -187,6 +190,7 @@ bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 # assign [class="Skype"] $ws5
 assign [class="discord"] $ws2
 assign [class="spotify"] $ws2
+assign [class="spotify-launcher"] $ws2
 assign [class="steam"] $ws3
 
 # Open specific applications in floating mode
@@ -258,6 +262,9 @@ bindsym $mod+9 exec --no-startup-id blurlock
 
 # Autostart applications
 exec --no-startup-id nm-applet
+exec firefox
+exec discord
+exec spotify-launcher
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
